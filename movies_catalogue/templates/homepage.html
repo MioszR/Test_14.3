@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+
+    </head>
+
+    <body>
+        {% extends "index.html" %}
+        {% block content %}
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1 class="mt-5">Witaj w mojej bibliotece filmów</h1>
+                <p class="lead">Znajdziesz tutaj tylko najlepsze tytuły!</p>
+            </div>
+            <div class="col-lg-12 mb-4">
+                {% for page in new_list %}
+                    {% if current_list == page %}
+                        <a href='{{ url_for("homepage", list_type=page) }}' class="btn btn-primary activate" role="button" aria-pressed="true">{{page.replace("_", " ").title()}}</a>
+                    {% else %}
+                        <a href='{{ url_for("homepage", list_type=page) }}' class="btn btn-outline-primary" role="button" >{{page.replace("_", " ").title()}}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% for movie in movies %}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card h-100">
+                        <img class="card-img-top" src='{{ tmbd_image_url(movie.poster_path, "w780") }}' alt="{{ movie.title }}">
+                        <div class="card-body">
+                            <h4 class="card-title">{{movie.title}}</h4>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="{{ url_for('movie_details', movie_id=movie.id) }}" class="btn btn-primary">Pokaż więcej</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+         </div>
+        {% endblock %}
+    </body>
+
+</html>
